@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const path = require('path'); //used to manipulate path names
 const express = require('express');
+const compression = require('compression');
 const morgan = require('morgan'); //used to log the incoming request automatically
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
@@ -158,6 +159,8 @@ app.use(hpp({
 // if next() is not called then request/response cycle will get stuck
 //   next();
 // });
+
+app.use(compression()) //this will compress all the text that is sent to cliend
 
 app.use((req, res, next) => {
   // this can be used to know when exactly the request happened
