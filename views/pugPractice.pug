@@ -1,0 +1,45 @@
+//- doctype html 
+//- html 
+//-   head
+//-     //- Another way to consume variables = #{tour} #{user}
+//-     title Natours | #{tour}
+//-     //- these files are automatically loaded by express because we defined a middleware for them in app.js which defined that all the static assets will served from public folder
+//-     link(rel='stylesheet', href='css/style.css') 
+//-     link(rel="Shortcut icon", type="imaage/png" href="img/favicon.png")
+
+
+
+//-   body
+//-     //-comsuming variable vals
+//-     h1= tour 
+//-     //- can also use js 
+//-     h2= user.toUpperCase()
+//-     //- h1 The Park Camper
+
+//-     //- writing unbuffered code -  code that does not add anything to the output => give a '-'
+//-     - const x = 9;
+//-     h2= 2 * x
+
+//-     p This is just some text 
+
+doctype html 
+html 
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content='width=device-width, initial-scale=1.0')
+    link(rel='stylesheet', href='css/style.css')
+    link(rel='Shortcut icon', type="imaage/png" href="img/favicon.png")
+    link(rel='stylesheet', href='https://fonts.googleapis.com/css?family=Lato:300,300i,700')
+    <title>Natours | Exciting tours for adventurous people</title>
+
+  body
+    // HEADER 
+    include _header
+  
+    // CONTENT
+    main.main
+      h1= tour
+
+
+    // FOOTER
+    include _footer
