@@ -1,5 +1,6 @@
 /* eslint-disable*/
 import '@babel/polyfill';
+import FileReader from 'filereader';
 import { login, logout, signup } from './login'
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
@@ -81,7 +82,7 @@ if (userDataForm) {
     // form.append('photo', document.getElementById('photo').files[0]);
     // const name = document.getElementById('name').value;
     // const email = document.getElementById('email').value;
-    console.log(form);
+    // console.log(form);
     updateSettings(form, 'data');
   })
 };
@@ -123,20 +124,5 @@ if (userPasswordForm) {
 };
 
 
-
-const handleDisplayUserPhoto = e => {
-  const imgFile = e.target.files?.[0];
-
-  if (!imgFile?.type.startsWith('image/')) return;
-  const reader = new FileReader();
-
-  reader.addEventListener('load', () => {
-    userImgEl.setAttribute('src', reader.result);
-  });
-
-  reader.readAsDataURL(imgFile);
-};
-
-userImgInputEl.addEventListener('change', handleDisplayUserPhoto);
 
 
