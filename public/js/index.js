@@ -61,7 +61,7 @@ if (logOutBtn) {
 
 
 if (bookBtn) {
-  console.log('Book btn');
+  // console.log('Book btn');
   bookBtn.addEventListener('click', (e) => {
     e.target.textContent = 'Processing...'
     const { tourId } = e.target.dataset;
