@@ -17,6 +17,7 @@ const bookingRouter = require('./routes/bookingRoutes');
 const viewRouter = require('./routes/viewRoutes');
 const AppError = require('./utils/appError');
 const globalErrorHandler = require('./controllers/errorController');
+const { webhookCheckout } = require('./controllers/bookingController');
 
 //------ creating the app variable
 const app = express();
@@ -46,11 +47,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // -------GLOBAL MIDDLEWARES---------//
 
 // Implement CORS
-app.use(cors());
+// app.use(cors());
 
 
 // CORS for delete,update
-app.options('*', cors()); //before delete or update request, a flight request is sent to the server which needs an all OK
+// app.options('*', cors()); //before delete or update request, a flight request is sent to the server which needs an all OK
 
 
 // ---CREATING SECURE HTTP HEADERS--
@@ -120,6 +121,12 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev')) //it automatically calls the next()
   // output => GET /api/v1/tours/ 200 3.460 ms - 8744
 }
+
+
+// Using stripe webhooks. The request needs to be in string format and not in JSON, so call it before parser middleware
+
+app.post('/webhook-checkout', express.raw({ type: 'application/json' }), webhookCheckout)
+
 
 // app.use() is a middleware that runs for all the routes
 
