@@ -47,11 +47,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 // -------GLOBAL MIDDLEWARES---------//
 
 // Implement CORS
-// app.use(cors());
+app.use(cors());
 
 
 // CORS for delete,update
-// app.options('*', cors()); //before delete or update request, a flight request is sent to the server which needs an all OK
+app.options('*', cors()); //before delete or update request, a flight request is sent to the server which needs an all OK
 
 
 // ---CREATING SECURE HTTP HEADERS--
