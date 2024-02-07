@@ -16,19 +16,18 @@ const signToken = id => {
 
 
 // cookie => small piece of text that a server can sent to clients, and when client receives a cookie it will automatically store it and automatically send it back along with all future requests to the same server
-const createSendToken = (user, statusCode, res) => {
+const createSendToken = (user, statusCode, req, res) => {
   const token = signToken(user._id);
 
   // sending a cookie
   // res.cookie(name,data we want to send in the cookie,options)
 
-  const cookieOptions = {
+  res.cookie('jwt', token, {
     expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
     // secure: true, //cookie will be sent only through https(only want when we are in production)
-    httpOnly: true //cannot be access or modified in anyway by the browser
-  }
-  if (process.env.NODE_ENV === 'production') { cookieOptions.secure = true }
-  res.cookie('jwt', token, cookieOptions)
+    httpOnly: true, //cannot be access or modified in anyway by the browser
+    secure: req.secure || req.headers('x-forwarded-proto') === 'https'
+  });
 
   // Remove password from output while creating new users
   user.password = undefined;
@@ -71,7 +70,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   // });
 
 
-  createSendToken(newUser, 201, res);
+  createSendToken(newUser, 201, req, res);
 
   // const token = signToken(newUser._id);
 
@@ -117,7 +116,7 @@ exports.login = catchAsync(async (req, res, next) => {
   // we need to create a new token for logging in
 
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 
   // const token = signToken(user._id);
   // res.status(200).json({
@@ -332,7 +331,7 @@ exports.resetPassword = async (req, res, next) => {
   // 4. Log the use in, send JWT
 
 
-  createSendToken(user, 201, res);
+  createSendToken(user, 201, req, res);
 
   // const token = signToken(user._id);
 
@@ -366,5 +365,5 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 
   // 4.log user in, send jwt
 
-  createSendToken(user, 200, res);
+  createSendToken(user, 200, req, res);
 });

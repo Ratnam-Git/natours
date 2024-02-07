@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 const path = require('path'); //used to manipulate path names
 const express = require('express');
+const cors = require('cors'); //allows cross origin requests
 const compression = require('compression');
 const morgan = require('morgan'); //used to log the incoming request automatically
 const rateLimit = require('express-rate-limit');
@@ -20,6 +21,8 @@ const globalErrorHandler = require('./controllers/errorController');
 //------ creating the app variable
 const app = express();
 
+
+app.enable('trust proxy')
 
 // Telling express what template module we are gonna use
 //no need to require 'pug'
@@ -42,6 +45,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // -------GLOBAL MIDDLEWARES---------//
 
+// Implement CORS
+app.use(cors());
+
+
+// CORS for delete,update
+app.options('*', cors()); //before delete or update request, a flight request is sent to the server which needs an all OK
 
 
 // ---CREATING SECURE HTTP HEADERS--
