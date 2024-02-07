@@ -1,5 +1,5 @@
 const express = require('express');
-const { getOverview, getTour, getLoginForm, getSignupForm, getAccount, updateUserData, getMyTours } = require('../controllers/viewsController');
+const { getOverview, getTour, getLoginForm, getSignupForm, getAccount, updateUserData, getMyTours, alerts } = require('../controllers/viewsController');
 const { isLoggedIn, protect } = require('../controllers/authController');
 // const { createBookingCheckout } = require('../controllers/bookingController');
 const router = express.Router();
@@ -32,6 +32,8 @@ router.get('/', (req, res) => {
 //     title: 'The Forest Hiker'
 //   });
 // });
+
+router.use(alerts);
 
 
 router.get('/', isLoggedIn, getOverview);

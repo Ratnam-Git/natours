@@ -5,6 +5,8 @@ import { login, logout, signup } from './login'
 import { displayMap } from './mapbox';
 import { updateSettings } from './updateSettings';
 import { bookTour } from './stripe';
+import { showAlert } from './alerts';
+
 
 // DOm elements
 const mapBox = document.getElementById('map');
@@ -16,8 +18,8 @@ const fileInput = document.querySelector('.form__upload');
 const userPasswordForm = document.querySelector('.form-user-password');
 const bookBtn = document.getElementById('book-tour');
 
-const userImgEl = document.querySelector('.form__user-photo');
-const userImgInputEl = document.querySelector('#photo');
+// const userImgEl = document.querySelector('.form__user-photo');
+// const userImgInputEl = document.querySelector('#photo');
 // console.log(logOutBtn);
 
 // delegation
@@ -86,6 +88,13 @@ if (userDataForm) {
     updateSettings(form, 'data');
   })
 };
+
+
+const alertMessage = document.querySelector('body').dataset.alert;
+
+if (alertMessage) {
+  showAlert('success', alertMessage)
+}
 
 
 if (fileInput)
